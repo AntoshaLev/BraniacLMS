@@ -8,6 +8,8 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, T
 from mainapp import forms as mainapp_forms
 from mainapp import models as mainapp_models
 
+from mainapp import models as mainapp_models
+
 
 class MainPageView(TemplateView):
     template_name = "mainapp/index.html"
@@ -83,6 +85,22 @@ class CourseFeedbackFormProcessView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         rendered_card = render_to_string("mainapp/includes/feedback_card.html", context={"item": self.object})
         return JsonResponse({"card": rendered_card})
+
+    def get_context_data(self, **kwargs):
+        context = super(CoursesListView, self).get_context_data(**kwargs)
+        context["objects"] = mainapp_models.Courses.objects.all()[:7]
+        return context
+
+
+class CoursesDetailView(TemplateView):
+    template_name = "mainapp/courses_detail.html"
+
+    def get_context_data(self, pk=None, **kwargs):
+        context = super(CoursesDetailView, self).get_context_data(**kwargs)
+        context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
+        context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
+        context["teachers"] = mainapp_models.CourseTeachers.objects.filter(course=context["course_object"])
+        return context
 
 
 class ContactsPageView(TemplateView):
