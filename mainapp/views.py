@@ -68,7 +68,9 @@ class CoursesDetailView(TemplateView):
     template_name = "mainapp/courses_detail.html"
 
     def get_context_data(self, pk=None, **kwargs):
+
         logger.debug("Yet another log message")
+
         context = super(CoursesDetailView, self).get_context_data(**kwargs)
         context["course_object"] = get_object_or_404(mainapp_models.Courses, pk=pk)
         context["lessons"] = mainapp_models.Lesson.objects.filter(course=context["course_object"])
@@ -91,7 +93,6 @@ class CoursesDetailView(TemplateView):
             cache.set(f"feedback_list_{pk}", context["feedback_list"], timeout=300)  # 5 minutes
         else:
             context["feedback_list"] = cached_feedback
-
         return context
 
 
@@ -103,7 +104,6 @@ class CourseFeedbackFormProcessView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         rendered_card = render_to_string("mainapp/includes/feedback_card.html", context={"item": self.object})
         return JsonResponse({"card": rendered_card})
-
 
 class ContactsPageView(TemplateView):
     template_name = "mainapp/contacts.html"
@@ -142,7 +142,6 @@ class ContactsPageView(TemplateView):
 class DocSitePageView(TemplateView):
     template_name = "mainapp/doc_site.html"
 
-
 class LogView(TemplateView):
     template_name = "mainapp/log_view.html"
 
@@ -157,10 +156,10 @@ class LogView(TemplateView):
             context["log"] = "".join(log_slice)
         return context
 
-
 class LogDownloadView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_superuser
 
     def get(self, *args, **kwargs):
         return FileResponse(open(settings.LOG_FILE, "rb"))
+
