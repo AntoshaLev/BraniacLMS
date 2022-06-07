@@ -105,6 +105,7 @@ class CourseFeedbackFormProcessView(LoginRequiredMixin, CreateView):
         rendered_card = render_to_string("mainapp/includes/feedback_card.html", context={"item": self.object})
         return JsonResponse({"card": rendered_card})
 
+
 class ContactsPageView(TemplateView):
     template_name = "mainapp/contacts.html"
 
@@ -142,6 +143,7 @@ class ContactsPageView(TemplateView):
 class DocSitePageView(TemplateView):
     template_name = "mainapp/doc_site.html"
 
+
 class LogView(TemplateView):
     template_name = "mainapp/log_view.html"
 
@@ -156,10 +158,10 @@ class LogView(TemplateView):
             context["log"] = "".join(log_slice)
         return context
 
+
 class LogDownloadView(UserPassesTestMixin, View):
     def test_func(self):
         return self.request.user.is_superuser
 
     def get(self, *args, **kwargs):
         return FileResponse(open(settings.LOG_FILE, "rb"))
-
