@@ -1,0 +1,22 @@
+[
+    {
+        "model": "authapp.customuser",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$260000$9zmkns4Dch8BrhcZO0yq8V$T++9rl5/O8R3/YatWbtmc7Mqbr1zTCGvlmvxgignE3E=",
+            "last_login": "2022-06-07T18:07:29.608Z",
+            "is_superuser": true,
+            "username": "Anton",
+            "first_name": "AntonLev",
+            "last_name": "AntonLev",
+            "age": 26,
+            "avatar": "",
+            "email": "www.www@w.ru",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2022-06-03T20:42:24.462Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]
